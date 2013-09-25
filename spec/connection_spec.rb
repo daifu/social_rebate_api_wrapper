@@ -38,6 +38,12 @@ describe SocialRebate::Connection do
           @sr.post('/api/v2/orders/', @body)
         }.to raise_error(SocialRebate::Connection::ResponseError)
       end
+
+      it "should raise exception with incorrect url" do
+        expect {
+          @sr.post('/api/v2/orders', @body)
+        }.to raise_error(SocialRebate::Connection::ResponseError)
+      end
     end
   end
 

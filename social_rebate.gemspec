@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["daifu.ye@gmail.com"]
   spec.description   = %q{This is the api wrapper for social rebate}
   spec.summary       = %q{Social Rebate}
-  spec.homepage      = "http://www.finditparts.com"
+  spec.homepage      = "https://github.com/daifu/social_rebate_api_wrapper"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
@@ -24,6 +24,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "debugger"
 
   spec.add_dependency "httparty", ">= 0.9.0"
-  spec.add_dependency "json"    , "~> 1.8.0"
+  spec.add_dependency "json"    , "~> 1.7.0"
 
 end
