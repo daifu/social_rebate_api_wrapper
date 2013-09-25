@@ -22,7 +22,7 @@ module SocialRebate
 
     def request(method, url, options={})
       unless api_token_keys_valid?
-        raise ResponseError.new("Please set username and password correctly")
+        raise ResponseError.new("Please set api_key and api_secret correctly")
       end
       parsed_response(self.class.__send__(method, url, options))
     end
