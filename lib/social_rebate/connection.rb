@@ -4,7 +4,7 @@ module SocialRebate
 
     base_uri "socialrebate.net"
     format   :json
-    STATUS = ['required', 'VERIFIED', 'VOID', 'COUPON']
+    STATUS = ['UNVERIFIED', 'VERIFIED', 'VOID', 'COUPON']
 
     class ResponseError < StandardError; end
 
