@@ -1,24 +1,69 @@
 require 'spec_helper'
 
 describe SocialRebate::Connection do
-
   before :each do
-    @sr = SocialRebate::Connection.new({:api_secret => "aec49293dce43e0cd0856adb28a2d05355ec2924", :api_key => "279d94e91d34216d97f56b00e97fa4ff8478f91e"})
+    @creds        = {:api_key => "your_api_key", :api_secret => "your_api_secret", :store_key => "your_store_key"}
+    @sr           = SocialRebate::Connection.new(@creds)
+    @creds_params = "api_key=your_api_key&api_secret=your_api_secret&format=json&store_key=your_store_key"
+    @headers      = {'content-type' => 'application/json', 'Accept' => 'application/json'}
   end
 
   context "GET" do
     describe "connection method" do
       it "should get last x orders for which social rebate has created a rebate" do
-        @sr.get('/api/v2/orders/').should == {
-          'meta' => {
-            'limit'       => 20,
-            'next'        => nil,
-            'offset'      => 0,
-            'previous'    => nil,
-            'total_count' => 0
-          },
-          'objects'       => []
-        }
+        @sr.stub(:request).with(:get,"/api/v2/orders/?"+@creds_params+"&limit=20&offset=20")
+        @sr.get("/api/v2/orders/", {:limit => 20, :offset => 20})
+      end
+
+      it "should raise exception with incorrect keys" do
+        expect {
+          @sr.get("/api/v2/orders/")
+        }.to raise_error(SocialRebate::Connection::ResponseError)
+      end
+    end
+  end
+
+  context "POST" do
+    describe "creating orders" do
+      before :each do
+        @body = {:order_email => 'test@fip.com', :total_purchase => 10, :order_id => 1}
+      end
+      it "should create an order" do
+        @sr.stub(:request).with(:post, "/api/v2/orders/", {:headers => @headers, :body => @body.merge(@creds).merge(:format => 'json').to_json})
+        @sr.post("/api/v2/orders/", @body)
+      end
+
+      it "should raise exception with incorrect keys" do
+        expect {
+          @sr.post('/api/v2/orders/', @body)
+        }.to raise_error(SocialRebate::Connection::ResponseError)
+      end
+    end
+  end
+
+  context "PUT" do
+    describe "updating orders" do
+      before :each do
+        @body = {:status => "VOID", :order_email => 'test@fip.com', :total_purchase => '30.0', :order_id => 1}
+      end
+
+      it "should update an order" do
+        @sr.stub(:request).with(:put, "/api/v2/orders/token/", {:headers => @headers, :body => @body.merge(@creds).merge(:format => 'json').to_json})
+        @sr.put("/api/v2/orders/token/", @body)
+      end
+
+      it "should raise exception with incorrect keys" do
+        expect {
+          @sr.put("/api/v2/orders/token/", @body)
+        }.to raise_error(SocialRebate::Connection::ResponseError)
+      end
+
+      it "should raise exception if status is not correct" do
+        @body[:status] = "not_valid"
+        @sr.stub(:request).with(:put, "/api/v2/orders/token/", {:headers => @headers, :body => @body.merge(@creds).merge(:format => 'json').to_json})
+        expect {
+          @sr.put("/api/v2/orders/token/", @body)
+        }.to raise_error(SocialRebate::Connection::ResponseError)
       end
     end
   end
