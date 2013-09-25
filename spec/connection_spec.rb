@@ -60,7 +60,6 @@ describe SocialRebate::Connection do
 
       it "should raise exception if status is not correct" do
         @body[:status] = "not_valid"
-        @sr.stub(:request).with(:put, "/api/v2/orders/token/", {:headers => @headers, :body => @body.merge(@creds).merge(:format => 'json').to_json})
         expect {
           @sr.put("/api/v2/orders/token/", @body)
         }.to raise_error(SocialRebate::Connection::ResponseError)
