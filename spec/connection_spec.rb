@@ -4,7 +4,7 @@ describe SocialRebate::Connection do
   before :each do
     @creds        = {:api_key => "your_api_key", :api_secret => "your_api_secret", :store_key => "your_store_key"}
     @sr           = SocialRebate::Connection.new(@creds)
-    @creds_params = "api_key=your_api_key&api_secret=your_api_secret&format=json&store_key=your_store_key"
+    @creds_params = "api_key=your_api_key&api_secret=your_api_secret&format=json"
     @headers      = {'content-type' => 'application/json', 'Accept' => 'application/json'}
   end
 
@@ -29,7 +29,7 @@ describe SocialRebate::Connection do
         @body = {:order_email => 'test@fip.com', :total_purchase => 10, :order_id => 1}
       end
       it "should create an order" do
-        @sr.stub(:request).with(:post, "/api/v2/orders/", {:headers => @headers, :body => @body.merge(@creds).merge(:format => 'json').to_json})
+        @sr.stub(:request).with(:post, "/api/v2/orders/", {:body => @body.merge(@creds).merge(:format => 'json'), :headers => @headers})
         @sr.post("/api/v2/orders/", @body)
       end
 
@@ -48,7 +48,7 @@ describe SocialRebate::Connection do
       end
 
       it "should update an order" do
-        @sr.stub(:request).with(:put, "/api/v2/orders/token/", {:headers => @headers, :body => @body.merge(@creds).merge(:format => 'json').to_json})
+        @sr.stub(:request).with(:put, "/api/v2/orders/token/", {:body => @body.merge(@creds).merge(:format => 'json'), :headers => @headers})
         @sr.put("/api/v2/orders/token/", @body)
       end
 
@@ -62,6 +62,12 @@ describe SocialRebate::Connection do
         @body[:status] = "not_valid"
         expect {
           @sr.put("/api/v2/orders/token/", @body)
+        }.to raise_error(SocialRebate::Connection::ResponseError)
+      end
+
+      it "should raise exception if url is incorrect" do
+        expect {
+          @sr.put("/api/v2/orders/", @body)
         }.to raise_error(SocialRebate::Connection::ResponseError)
       end
     end
