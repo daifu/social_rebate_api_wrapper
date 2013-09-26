@@ -28,10 +28,10 @@ describe SocialRebate do
     end
   end
 
-  describe "init_social_rebate_session" do
+  describe "init" do
     it "should receive correct params for social rebate request" do
       @cn.stub(:post).with("/api/v2/orders/", @option)
-      SocialRebate.init_social_rebate_session(@option)
+      SocialRebate.init(@option)
     end
   end
 

@@ -17,7 +17,7 @@ module SocialRebate
     SocialRebate::Connection.new(creds).put("/api/v2/orders/#{token}", option)
   end
 
-  def self.init_social_rebate_session(option={})
+  def self.init(option={})
     SocialRebate::Connection.new(creds).post('/api/v2/orders/', option)
   end
 
