@@ -1,6 +1,7 @@
 require 'httparty'
 require 'json'
 Dir[File.dirname(__FILE__)+'/../lib/social_rebate/*.rb'].each{|file| require file}
+require_relative '../lib/social_rebate.rb'
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
