@@ -8,21 +8,25 @@ require "social_rebate/connection"
 module SocialRebate
 
   def self.verify(token, option={})
+    return unless is_enabled?
     option[:status] ||= 'VERIFIED'
-    SocialRebate::Connection.new(creds).put("/api/v2/orders/#{token}/", option)
+    SocialRebate::Connection.new(creds).put("#{sub_base_uri}#{token}/", option)
   end
 
   def self.cancel(token, option={})
+    return unless is_enabled?
     option[:status] ||= 'VOID'
-    SocialRebate::Connection.new(creds).put("/api/v2/orders/#{token}", option)
+    SocialRebate::Connection.new(creds).put("#{sub_base_uri}#{token}", option)
   end
 
   def self.init(option={})
-    SocialRebate::Connection.new(creds).post('/api/v2/orders/', option)
+    return unless is_enabled?
+    SocialRebate::Connection.new(creds).post(sub_base_uri, option)
   end
 
-  def self.get(option={})
-    SocialRebate::Connection.new(creds).get(option)
+  def self.get(option={}, url='/api/v2/orders/')
+    return unless is_enabled?
+    SocialRebate::Connection.new(creds).get(url)
   end
 
   def self.creds
@@ -31,6 +35,14 @@ module SocialRebate
     creds[:api_secret] ||= Config.api_secret
     creds[:store_key]  ||= Config.store_key
     creds
+  end
+
+  def self.sub_base_uri
+    "/api/#{Config.api_version}/orders/"
+  end
+
+  def self.is_enabled?
+    Config.enabled?
   end
 
 end
