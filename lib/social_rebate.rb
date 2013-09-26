@@ -16,7 +16,7 @@ module SocialRebate
   def self.cancel(token, option={})
     return unless is_enabled?
     option[:status] ||= 'VOID'
-    SocialRebate::Connection.new(creds).put("#{sub_base_uri}#{token}", option)
+    SocialRebate::Connection.new(creds).put("#{sub_base_uri}#{token}/", option)
   end
 
   def self.init(option={})
