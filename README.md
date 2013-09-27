@@ -18,21 +18,21 @@ Or install it yourself as:
 
 ## Usage
 
-# Set up
+### Set up
 Set env variable for SR_API_KEY, SR_API_SECRET, and SR_STORE_KEY
 
-# Init social rebate
+### Init social rebate
 
 ```ruby
 SocialRebate.init({:order_email => 'customer@email.com', :total_purchase => '1000', :order_id => 23232})
 ```
 
-# Verfiy social rebate
+### Verfiy social rebate
 ```ruby
 SocialRebate.verify('order token', {:order_email => 'customer@email.com', :total_purchase => '1000', :order_id => 23232})
 ```
 
-# Cancel social rebate
+### Cancel social rebate
 ```ruby
 SocialRebate.cancel('order token', {:order_email => 'customer@email.com', :total_purchase => '1000', :order_id => 23232})
 ```
