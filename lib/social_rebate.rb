@@ -8,14 +8,20 @@ require "social_rebate/connection"
 module SocialRebate
 
   def self.verify(token, option={})
-    return unless is_enabled?
-    option[:status] ||= 'VERIFIED'
-    SocialRebate::Connection.new(creds).put("#{sub_base_uri}#{token}/", option)
+    set_status(token, option, 'VERIFIED')
   end
 
   def self.cancel(token, option={})
+    set_status(token, option, 'VOID')
+  end
+
+  def self.coupon(token, option={})
+    set_status(token, option, "COUPON")
+  end
+
+  def self.set_status(token, option, status)
     return unless is_enabled?
-    option[:status] ||= 'VOID'
+    option[:status] ||= status
     SocialRebate::Connection.new(creds).put("#{sub_base_uri}#{token}/", option)
   end
 

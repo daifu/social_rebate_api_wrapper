@@ -5,6 +5,7 @@ module SocialRebate
     @@api_key = @@api_secret = @@store_key = nil
     @@enabled     = true
     @@api_version = 'v2'
+    @@offer_type  = 'inline_receipt'
 
     class << self
       def api_key=(key)
@@ -19,12 +20,16 @@ module SocialRebate
         @@store_key = store_key
       end
 
-      def api_version=(api_version)
-        @@api_version = api_version || 'v2'
+      def api_version=(api_version='v2')
+        @@api_version = api_version
       end
 
       def enabled=(enabled=true)
         @@enabled = enabled
+      end
+
+      def offer_type=(offer_type='inline_receipt')
+        @@offer_type = offer_type
       end
 
       def api_key
@@ -49,6 +54,10 @@ module SocialRebate
 
       def api_version
         @@api_version
+      end
+
+      def offer_type
+        @@offer_type
       end
     end
 
