@@ -26,7 +26,7 @@ module SocialRebate
 
   def self.get(option={}, url='/api/v2/orders/')
     return unless is_enabled?
-    SocialRebate::Connection.new(creds).get(url)
+    SocialRebate::Connection.new(creds).get(url, option)
   end
 
   def self.creds
