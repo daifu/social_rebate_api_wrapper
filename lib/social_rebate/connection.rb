@@ -101,13 +101,13 @@ module SocialRebate
 
     def check_put_url(url)
       if url !~ /\/v[0-9]+\/orders\/[0-9a-zA-Z]+\/$/i
-        raise ResponseError.new("Incorrect put request url, expected: /api/v[0-9]/orders/<your order id>/")
+        raise ResponseError.new("Incorrect put request url, expected: /api/v[0-9]/orders/<your order id>/, but you have #{url}")
       end
     end
 
     def check_post_url(url)
       if url !~ /\/v[0-9]+\/orders\/$/i
-        raise ResponseError.new("Incorrect post request url, expected: /api/v[0-9]/orders/")
+        raise ResponseError.new("Incorrect post request url, expected: /api/v[0-9]/orders/, but you have #{url}")
       end
     end
   end
