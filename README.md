@@ -1,6 +1,6 @@
 # SocialRebate
 
-TODO: Write a gem description
+This is a gem for social rebate api, it can verify, cancel, and get from social rebate using their api.
 
 ## Installation
 
@@ -18,7 +18,17 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+# Set up
+Set env variable for SR_API_KEY, SR_API_SECRET, and SR_STORE_KEY
+
+# Init social rebate
+SocialRebate.init({:order_email => 'customer@email.com', :total_purchase => '1000', :order_id => 23232})
+
+# Verfiy social rebate
+SocialRebate.verify('order token', {:order_email => 'customer@email.com', :total_purchase => '1000', :order_id => 23232})
+
+# Cancel social rebate
+SocialRebate.cancel('order token', {:order_email => 'customer@email.com', :total_purchase => '1000', :order_id => 23232})
 
 ## Contributing
 
