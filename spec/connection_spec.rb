@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'Httparty'
 
 describe SocialRebate::Connection do
   before :each do
@@ -8,11 +9,26 @@ describe SocialRebate::Connection do
     @headers      = {'content-type' => 'application/json', 'Accept' => 'application/json'}
   end
 
+  describe "request" do
+    it "should be called with correct params" do
+      url = '/api/v2/orders/token/?'+@creds_params
+      SocialRebate.stub(:get).with(:get, url, {})
+      @sr.should_receive(:parsed_response)
+      @sr.request(:get, url, {})
+    end
+  end
+
   context "GET" do
     describe "connection method" do
       it "should get last x orders for which social rebate has created a rebate" do
         @sr.stub(:request).with(:get,"/api/v2/orders/?"+@creds_params+"&limit=20&offset=20")
         @sr.get("/api/v2/orders/", {:limit => 20, :offset => 20})
+      end
+
+      it "should get the particular order by its token" do
+        token = 'token'
+        @sr.stub(:request).with(:get,"/api/v2/orders/#{token}/?"+@creds_params+"&limit=20&offset=20")
+        @sr.get("/api/v2/orders/#{token}/", {:limit => 20, :offset => 20})
       end
 
       it "should raise exception with incorrect keys" do

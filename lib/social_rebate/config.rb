@@ -52,6 +52,10 @@ module SocialRebate
         @@enabled
       end
 
+      def enabled
+        @@enabled
+      end
+
       def api_version
         @@api_version
       end
